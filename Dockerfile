@@ -1,19 +1,7 @@
-FROM lsiobase/rdesktop-web:focal
+FROM ghcr.io/linuxserver/baseimage-kasmvnc:alpine320
 
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN apk add --no-cache anki
 
- RUN \
-  apt-get update && \
-  apt-get install -y anki wget zstd xdg-utils && \
-  dpkg --remove anki && \
-  wget https://github.com/ankitects/anki/releases/download/2.1.54/anki-2.1.54-linux-qt5.tar.zst && \
-  tar --use-compress-program=unzstd -xvf anki-2.1.54-linux-qt5.tar.zst && \
-  cd anki-2.1.54-linux-qt5 && ./install.sh &&  cd .. && \
-  rm -rf anki-2.1.54-linux-qt5 anki-2.1.54-linux-qt5.tar.zst && \
-  apt-get clean && \
-  mkdir -p /config/.local/share && \
-  ln -s /config/app/Anki  /config/.local/share/Anki  && \
-  ln -s /config/app/Anki2 /config/.local/share/Anki2
-
-VOLUME "/config/app" 
-
-COPY root/ /
+COPY /root /

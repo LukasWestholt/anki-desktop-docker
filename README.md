@@ -1,6 +1,14 @@
 # Anki Desktop
 
-This is a dockerfile for the desktop version of Anki, which is useful for automating anki using addons like Anki-Connect. The app is accessible via a web interface bound to port 3000. The anki configuration is bound to a volume mounted at /config/app in the container. 
+This is a dockerfile for the desktop version of Anki, which is useful for automating anki using addons like Anki-Connect. The app is accessible via a web interface bound to port 3000. The anki configuration is bound to a volume. 
+
+
+## How to build
+
+For creating the docker image please execute:
+```
+docker build -t anki-desktop .
+```
 
 
 ## Docker Compose Examples
@@ -8,18 +16,19 @@ This is a dockerfile for the desktop version of Anki, which is useful for automa
 ### Ports Exposed Directly
 
 ```
-services: 
-  anki-desktop: 
-    image: "pnorcross/anki-desktop:latest"
+services:
+  anki-desktop:
+    image: "anki-desktop:latest"
     volumes:
-      - /data/apps/anki/config:/config/app
-    ports: 
+      # Mount Anki profiles and config directory to host
+      - ./anki:/config/.local/share/Anki2
+    ports:
       - 3000:3000
       # Anki Connect port
       - 8765:8765
  ```
 
-### Proxied through Traefik
+### Proxied through Traefik (outdated)
 
 ```
 services: 
